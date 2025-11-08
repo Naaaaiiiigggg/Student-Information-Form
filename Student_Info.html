@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Info</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+
+  <body>
+    <main>
+      <div class="logo">
+        <img src="logo.png" alt="Logo" width="125" height="125" />
+      </div>
+
+      <h2>Student Information Form</h2>
+
+      <form id="studentForm">
+        <div class="form-container">
+          <div class="form-column">
+            <label for="studentName">Name:</label>
+            <input type="text" id="studentName" name="studentName" required />
+
+            <label for="studentNo">Student No:</label>
+            <input
+              type="text"
+              id="studentNo"
+              name="studentNo"
+              placeholder="e.g. 25-12345"
+              required
+            />
+
+            <div class="birth-age">
+              <div>
+                <label for="birthday">Birthday:</label>
+                <input
+                  type="date"
+                  id="birthday"
+                  name="birthday"
+                  class="bday-input"
+                  required
+                />
+              </div>
+              <div>
+                <label for="studentAge">Age:</label>
+                <input
+                  type="text"
+                  id="studentAge"
+                  name="studentAge"
+                  readonly
+                  required
+                />
+              </div>
+            </div>
+
+            <label for="Course">Course:</label>
+            <select id="Course" name="Course" required>
+              <option value="">Select your course</option>
+              <optgroup label="🧡 Institute of Computing Studies (ICS)">
+                <option value="Bachelor of Science in Information Technology">
+                  Bachelor of Science in Information Technology (BSIT)
+                </option>
+                <option value="Bachelor of Science in Computer Engineering">
+                  Bachelor of Science in Computer Engineering (BSCpE)
+                </option>
+              </optgroup>
+              <optgroup
+                label="💛 Institute of Business and Entrepreneurship (IBE)"
+              >
+                <option
+                  value="Bachelor of Science in Business Administration Major in Human Resource Management"
+                >
+                  Bachelor of Science in Business Administration Major in Human
+                  Resource Management (BSBA HRM)
+                </option>
+                <option value="Bachelor of Science in Entrepreneurship">
+                  Bachelor of Science in Entrepreneurship (BSE)
+                </option>
+              </optgroup>
+              <optgroup label="💙 Institute of Teacher Education (ITE)">
+                <option value="Bachelor of Early Childhood Education">
+                  Bachelor of Early Childhood Education (BECEd)
+                </option>
+                <option value="Bachelor of Elementary Education">
+                  Bachelor of Elementary Education (BEEd)
+                </option>
+                <option
+                  value="Bachelor of Secondary Education major in Science"
+                >
+                  Bachelor of Secondary Education major in Science (BSEd
+                  Science)
+                </option>
+                <option value="Bachelor of Technology and Livelihood Education">
+                  Bachelor of Technology and Livelihood Education (BTLEd ICT)
+                </option>
+                <option value="Teacher Certificate Program">
+                  Teacher Certificate Program (TCP)
+                </option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="form-column">
+            <label for="contactNo">Contact No.:</label>
+            <input
+              type="text"
+              id="contactNo"
+              name="contactNo"
+              placeholder="e.g. 09XXXXXXXXX"
+              required
+            />
+
+            <label for="guardianName">Guardian Name:</label>
+            <input type="text" id="guardianName" name="guardianName" required />
+
+            <label for="bloodType">Blood Type:</label>
+            <select id="bloodType" name="bloodType" required>
+              <option value="">Select blood type</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+
+            <label for="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="e.g. example@gmail.com"
+              required
+            />
+          </div>
+        </div>
+
+        <input type="submit" value="Submit" class="submit-btn" />
+      </form>
+    </main>
+
+    <!-- Modal -->
+    <div id="resultModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Submitted Information</h3>
+        <div class="modal-body">
+          <p><strong>Name:</strong> <span id="resName"></span></p>
+          <p><strong>Student No:</strong> <span id="resNo"></span></p>
+          <p><strong>Birthday:</strong> <span id="resBday"></span></p>
+          <p><strong>Age:</strong> <span id="resAge"></span></p>
+          <p><strong>Course:</strong> <span id="resCourse"></span></p>
+          <p><strong>Contact No:</strong> <span id="resContact"></span></p>
+          <p><strong>Guardian Name:</strong> <span id="resGuardian"></span></p>
+          <p><strong>Blood Type:</strong> <span id="resBlood"></span></p>
+          <p><strong>Email:</strong> <span id="resEmail"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      &copy; Submitted by Algarme, Dingle, Dosdos. All Rights Reserved.
+    </footer>
+
+    <script>
+      const form = document.getElementById("studentForm");
+      const birthdayInput = document.getElementById("birthday");
+      const ageInput = document.getElementById("studentAge");
+      const modal = document.getElementById("resultModal");
+      const closeBtn = document.querySelector(".close");
+
+      // Auto age calculation
+      birthdayInput.addEventListener("change", function () {
+        const birthDate = new Date(this.value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+        ageInput.value = age;
+      });
+
+      // Close modal
+      closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+      });
+
+      window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = form.studentName.value.trim();
+        const studentNo = form.studentNo.value.trim();
+        const birthday = form.birthday.value;
+        const age = parseInt(form.studentAge.value.trim());
+        const course = form.Course.value.trim();
+        const contact = form.contactNo.value.trim();
+        const guardian = form.guardianName.value.trim();
+        const blood = form.bloodType.value.trim();
+        const email = form.email.value.trim();
+
+        if (
+          !name ||
+          !studentNo ||
+          !birthday ||
+          !age ||
+          !course ||
+          !contact ||
+          !guardian ||
+          !blood ||
+          !email
+        ) {
+          alert("⚠️ Please fill in all fields before submitting.");
+          return;
+        }
+
+        if (!/^[A-Za-z\s]+$/.test(name)) {
+          alert("❌ Name must contain letters and spaces only.");
+          return;
+        }
+
+        if (!/^\d{2}-\d{5}$/.test(studentNo)) {
+          alert("❌ Student No. must follow the format: 25-12345.");
+          return;
+        }
+
+        if (!course) {
+          alert("❌ Please select a course.");
+          return;
+        }
+
+        if (!/^09\d{9}$/.test(contact)) {
+          alert("❌ Contact number must start with 09 and be 11 digits long.");
+          return;
+        }
+
+        if (!/^[A-Za-z\s]+$/.test(guardian)) {
+          alert("❌ Guardian name must contain letters and spaces only.");
+          return;
+        }
+
+        if (!blood) {
+          alert("❌ Please select a blood type.");
+          return;
+        }
+
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        if (!emailPattern.test(email)) {
+          alert(
+            "❌ Please enter a valid email address (e.g. example@gmail.com)."
+          );
+          return;
+        }
+
+        // Show in modal
+        document.getElementById("resName").textContent = name;
+        document.getElementById("resNo").textContent = studentNo;
+        document.getElementById("resBday").textContent = birthday;
+        document.getElementById("resAge").textContent = age;
+        document.getElementById("resCourse").textContent = course;
+        document.getElementById("resContact").textContent = contact;
+        document.getElementById("resGuardian").textContent = guardian;
+        document.getElementById("resBlood").textContent = blood;
+        document.getElementById("resEmail").textContent = email;
+
+        modal.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
